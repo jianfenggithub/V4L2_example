@@ -90,8 +90,7 @@ bool V4L2::V4l_Init(char *camera_path, unsigned int frame)
         qDebug()<<"request for buffers error";
         return false;
     }
-    for (i=0; i<Video_count; i++)                       /** mmap四个缓冲区 */
-    {
+    for (i=0; i<Video_count; i++){                      /** mmap四个缓冲区 */
         bzero(&buffer[i], sizeof(buffer[i]));
         buffer[i].type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
         buffer[i].memory = V4L2_MEMORY_MMAP;
@@ -104,8 +103,7 @@ bool V4L2::V4l_Init(char *camera_path, unsigned int frame)
         start[i] = (unsigned char *)mmap(NULL,buffer[i].length,PROT_READ |PROT_WRITE, MAP_SHARED, fd, buffer[i].m.offset);
                                                         /** 将申请的内核缓存映射到用户空间 */
     }
-    for (i=0; i<Video_count; i++)
-    {
+    for (i=0; i<Video_count; i++){
         buffer[i].index = i;
         ioctl(fd, VIDIOC_QBUF, &buffer[i]);             /** 将缓存入队 */
     }
@@ -148,8 +146,7 @@ bool V4L2::Close_Camera()                              /** 关闭摄像头,关�
             return false;
         }
     }
-    for(i=0; i<Video_count; i++)
-    {
+    for(i=0; i<Video_count; i++){
         if(start[i] != NULL){                          /** 释放申请的内存 */
             start[i] = NULL;
         }
